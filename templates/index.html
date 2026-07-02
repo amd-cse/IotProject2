@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+        <h1 class="display-4 mb-4">Face Recognition Portal</h1>
+        <p class="lead">Enroll and authenticate users using face recognition with liveness detection</p>
+        
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">📝 Enroll New User</h5>
+                        <p class="card-text">Capture multiple images to enroll a new user in the system.</p>
+                        <a href="{{ url_for('enroll') }}" class="btn btn-primary">Enroll User</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">🔍 Authenticate User</h5>
+                        <p class="card-text">Verify user identity using face recognition with liveness detection.</p>
+                        <a href="{{ url_for('authenticate') }}" class="btn btn-success">Authenticate</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
