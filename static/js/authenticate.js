@@ -6,10 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const startCameraBtn = document.getElementById('startCamera');
     const startAuthBtn = document.getElementById('startAuth');
     const resultDiv = document.getElementById('result');
-    const challengePrompt = document.getElementById('challengePrompt');
-    const overlay = document.getElementById('overlay');
+    const statusDiv = document.getElementById('challengePrompt');
 
-    // Start camera
     startCameraBtn.addEventListener('click', async function () {
         try {
             stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -22,67 +20,43 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Start Authentication Flow
     startAuthBtn.addEventListener('click', async function () {
         startAuthBtn.disabled = true;
         resultDiv.innerHTML = '';
+        statusDiv.style.display = 'block';
 
         try {
-            // 1. Get Challenge from Backend
-            const challengeRes = await fetch('/get_liveness_challenge');
-            const challengeData = await challengeRes.json();
-            const challenge = challengeData.challenge;
+            // 1. Capture Ambient Frame (LED is OFF)
+            statusDiv.innerHTML = "Step 1: Capturing ambient light...";
+            let context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, 640, 480);
+            const ambientFrame = canvas.toDataURL('image/jpeg');
 
-            // 2. Display Challenge to User
-            let challengeText = '';
-            let overlayText = '';
+            // 2. Tell Backend to turn ON ESP32 LED
+            statusDiv.innerHTML = "Step 2: Activating Blue LEDs...";
+            const startRes = await fetch('/liveness/start', { method: 'POST' });
+            const startData = await startRes.json();
 
-            if (challenge === 'blink') {
-                challengeText = 'Please BLINK your eyes clearly';
-                overlayText = 'BLINK';
-            } else if (challenge === 'smile') {
-                challengeText = 'Please SMILE clearly';
-                overlayText = 'SMILE';
-            } else if (challenge === 'turn_left') {
-                challengeText = 'Please turn your head LEFT';
-                overlayText = 'TURN LEFT';
-            } else if (challenge === 'turn_right') {
-                challengeText = 'Please turn your head RIGHT';
-                overlayText = 'TURN RIGHT';
+            if (!startData.success) {
+                throw new Error(startData.message);
             }
 
-            challengePrompt.style.display = 'block';
-            challengePrompt.innerHTML = `🚨 Action Required: <br>${challengeText}`;
+            // Wait 500ms for LED to physically turn on and camera exposure to adjust
+            await new Promise(resolve => setTimeout(resolve, 500));
 
-            // Countdown 3..2..1
-            await countdown(3);
+            // 3. Capture Illuminated Frame (LED is ON)
+            statusDiv.innerHTML = "Step 3: Capturing illuminated frame...";
+            context.drawImage(video, 0, 0, 640, 480);
+            const illuminatedFrame = canvas.toDataURL('image/jpeg');
 
-            // Show overlay text
-            overlay.textContent = overlayText;
-            overlay.style.display = 'block';
-            challengePrompt.innerHTML = 'Capturing... Please perform the action!';
-
-            // 3. Capture 3 frames over 1.5 seconds
-            const capturedFrames = [];
-            for (let i = 0; i < 3; i++) {
-                const context = canvas.getContext('2d');
-                context.drawImage(video, 0, 0, 640, 480);
-                capturedFrames.push(canvas.toDataURL('image/jpeg'));
-                await new Promise(resolve => setTimeout(resolve, 500)); // 500ms delay
-            }
-
-            overlay.style.display = 'none';
-            challengePrompt.style.display = 'none';
-
-            showResult('Processing liveness detection...', 'info');
-
-            // 4. Send to Backend
+            // 4. Send both frames to Backend for verification
+            statusDiv.innerHTML = "Step 4: Verifying liveness & identity...";
             const response = await fetch('/authenticate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    images: capturedFrames,
-                    challenge: challenge
+                    ambient_image: ambientFrame,
+                    illuminated_image: illuminatedFrame
                 })
             });
 
@@ -106,27 +80,10 @@ document.addEventListener('DOMContentLoaded', function () {
             showResult('Error: ' + err.message, 'danger');
         }
 
+        statusDiv.style.display = 'none';
         startAuthBtn.disabled = false;
     });
 
-    // Helper: Countdown timer
-    function countdown(seconds) {
-        return new Promise((resolve) => {
-            let count = seconds;
-            challengePrompt.innerHTML = `Get Ready... <br><span style="font-size: 3rem;">${count}</span>`;
-            const interval = setInterval(() => {
-                count--;
-                if (count > 0) {
-                    challengePrompt.innerHTML = `Get Ready... <br><span style="font-size: 3rem;">${count}</span>`;
-                } else {
-                    clearInterval(interval);
-                    resolve();
-                }
-            }, 1000);
-        });
-    }
-
-    // Helper: Show result
     function showResult(message, type) {
         resultDiv.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
     }

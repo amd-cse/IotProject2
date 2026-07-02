@@ -13,7 +13,6 @@
                         <div class="camera-container">
                             <video id="video" width="640" height="480" autoplay></video>
                             <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
-                            <div id="overlay" class="overlay-text"></div>
                         </div>
                         <div class="mt-2">
                             <button type="button" class="btn btn-primary" id="startCamera">Start Camera</button>
@@ -21,7 +20,7 @@
                         </div>
                     </div>
                     
-                    <!-- Liveness Challenge Prompt -->
+                    <!-- Status Prompt -->
                     <div id="challengePrompt" class="alert alert-info text-center" style="display: none; font-size: 1.2rem; font-weight: bold;">
                         Please wait...
                     </div>
@@ -32,16 +31,6 @@
         </div>
     </div>
 </div>
-
-<style>
-    .camera-container { position: relative; }
-    .overlay-text {
-        position: absolute; top: 20px; left: 0; right: 0; 
-        text-align: center; color: white; font-size: 2rem; 
-        font-weight: bold; text-shadow: 2px 2px 4px black;
-        display: none;
-    }
-</style>
 {% endblock %}
 
 {% block scripts %}

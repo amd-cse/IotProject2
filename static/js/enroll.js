@@ -3,7 +3,6 @@ let capturedImages = [];
 let imageCount = 0;
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Elements
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const startCameraBtn = document.getElementById('startCamera');
@@ -13,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const capturedImagesDiv = document.getElementById('capturedImages');
     const statusDiv = document.getElementById('status');
 
-    // Start camera
     startCameraBtn.addEventListener('click', async function () {
         try {
             stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -27,18 +25,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Capture single image
     captureBtn.addEventListener('click', function () {
         captureImage();
     });
 
-    // Capture multiple images
     captureMultipleBtn.addEventListener('click', async function () {
         captureMultipleBtn.disabled = true;
         captureBtn.disabled = true;
 
         for (let i = 0; i < 5; i++) {
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second
+            await new Promise(resolve => setTimeout(resolve, 1000));
             captureImage();
             showStatus(`Capturing image ${i + 1} of 5...`, 'info');
         }
@@ -48,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function () {
         showStatus('All 5 images captured!', 'success');
     });
 
-    // Capture image function
     function captureImage() {
         const context = canvas.getContext('2d');
         context.drawImage(video, 0, 0, 640, 480);
@@ -57,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
         capturedImages.push(imageData);
         imageCount++;
 
-        // Add to preview
         const imgDiv = document.createElement('div');
         imgDiv.className = 'col-md-2 mb-2';
         imgDiv.innerHTML = `
@@ -70,13 +64,11 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
         capturedImagesDiv.appendChild(imgDiv);
 
-        // Enable enroll button if we have enough images
         if (capturedImages.length >= 3) {
             enrollBtn.disabled = false;
         }
     }
 
-    // Form submission
     document.getElementById('enrollmentForm').addEventListener('submit', async function (e) {
         e.preventDefault();
 
@@ -98,9 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const response = await fetch('/enroll', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     name: userName,
                     images: capturedImages
@@ -111,7 +101,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (result.success) {
                 showStatus(result.message, 'success');
-                // Reset form
                 document.getElementById('enrollmentForm').reset();
                 capturedImages = [];
                 imageCount = 0;
@@ -127,19 +116,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Show status function
     function showStatus(message, type) {
-        statusDiv.innerHTML = `
-            <div class="alert alert-${type}" role="alert">
-                ${message}
-            </div>
-        `;
-
-        // Auto-hide success messages after 5 seconds
+        statusDiv.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
         if (type === 'success') {
-            setTimeout(() => {
-                statusDiv.innerHTML = '';
-            }, 5000);
+            setTimeout(() => { statusDiv.innerHTML = ''; }, 5000);
         }
     }
 });
