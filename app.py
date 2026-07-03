@@ -275,11 +275,14 @@ def authenticate_face():
         
     stored_encoding = np.array(users[pending_user]['avg_encoding'])
     face_distance = face_recognition.face_distance([stored_encoding], live_encoding)[0]
-    tolerance = 0.6
-    
+    tolerance = 0.48
+    print("Tolerance: ", face_distance)
+
     if face_distance < tolerance:
         # SUCCESS! Tell ESP32 to open door
+        print("Tolerance: ", face_distance)
         trigger_esp32_door_open()
+
         system_state["locker_status"] = "idle" # Reset for next user immediately
         system_state["message"] = f"Access Granted to {pending_user}. Unlocking..."
         return jsonify({
