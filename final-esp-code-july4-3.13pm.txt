@@ -1,0 +1,196 @@
+#include <Arduino.h>
+#include <Stepper.h>
+#include <ESP32Servo.h>
+#include <WiFi.h>
+#include <WebServer.h>
+#include <SPI.h>
+#include <MFRC522.h>
+
+// --- Hardware Pins ---
+#define LED_Servo 4
+#define LED_Stepper 13
+#define BUTTON 22
+#define TRANSPIN 32
+#define LED 2
+
+// RFID Pins (VSPI)
+#define SS_PIN 5
+#define RST_PIN 21
+
+//functions
+// --- Function Declarations ---
+void unlockDoor();
+void openDoor();
+void closeDoor();
+void lockDoor();
+
+// --- WiFi Config ---
+const char* ssid = "rfid";
+const char* password = "rfid1234";
+
+IPAddress staticIP(192, 168, 137, 16); // ESP32 static IP
+IPAddress gateway(192, 168, 1, 1);    // Router IP
+IPAddress subnet(255, 255, 255, 0);   // Subnet mask
+IPAddress dns(8, 8, 8, 8);     
+
+WebServer server(80);
+
+// --- Stepper Config ---
+const int stepsPerRevolution = 2048; 
+#define IN1 25
+#define IN2 26
+#define IN3 27
+#define IN4 14
+Stepper myStepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
+
+// --- Servo Config ---
+Servo myServo;
+#define SERVOPIN 33
+
+// --- RFID Config ---
+MFRC522 rfid(SS_PIN, RST_PIN);
+String latest_uid = ""; // Stores the most recent UID
+bool isBusy = false;     // Prevents reading while door is moving
+//flags
+bool isClosed = true;
+int buttonState;
+int lastButtonState;
+int timeoutCounter=0;
+
+void setup() {
+  myStepper.setSpeed(16);
+  Serial.begin(115200);
+
+  pinMode(LED_Servo, OUTPUT);
+  pinMode(LED_Stepper, OUTPUT);
+  pinMode(LED, OUTPUT);
+  pinMode(TRANSPIN, OUTPUT);
+  digitalWrite(TRANSPIN, LOW);
+
+  pinMode(BUTTON, INPUT_PULLUP);
+  buttonState=digitalRead(BUTTON);
+
+  myServo.setPeriodHertz(50);
+  myServo.attach(SERVOPIN, 500, 2400); 
+  myServo.write(0);//servo initialize to 0 degree which is locked state
+
+  SPI.begin();
+  rfid.PCD_Init();
+
+  if (!WiFi.config(staticIP, gateway, subnet, dns)) {
+    Serial.println("STA Failed to configure");
+  }
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nWiFi connected. ESP32 IP: " + WiFi.localIP().toString());
+
+  // --- Web Server Endpoints ---
+  
+  // Flask calls this to get the UID
+  server.on("/rfid/pop", []() {
+    String uidToSend = latest_uid;
+    latest_uid = ""; // Clear after reading
+    String json = "{\"uid\":\"" + uidToSend + "\"}";
+    server.send(200, "application/json", json);
+  });
+
+  // Flask calls this to control the Blue LED
+  server.on("/led/on", []() {
+    digitalWrite(TRANSPIN, HIGH);
+    server.send(200, "text/plain", "LED ON");
+  });
+  server.on("/led/off", []() {
+    digitalWrite(TRANSPIN, LOW);
+    server.send(200, "text/plain", "LED OFF");
+  });
+
+  // Flask calls this to trigger the door sequence
+  server.on("/door/open", HTTP_POST, []() {
+    server.send(200, "text/plain", "OK"); // Respond immediately so Flask doesn't timeout
+    isBusy = true;
+    digitalWrite(TRANSPIN, LOW); // Ensure LED is off
+    // Execute physical sequence
+    if(isClosed){
+      delay(500);
+      unlockDoor();
+      delay(500);
+      openDoor();
+	digitalWrite(LED, HIGH);
+      //delay(5000); // Keep door open for 5 seconds
+      //closeDoor();
+      //delay(500);
+      //lockDoor();
+      isClosed=false;
+    }
+    
+    isBusy = false;
+  });
+
+  server.begin();
+}
+
+void loop() {
+  server.handleClient();
+  lastButtonState=buttonState;//save last state
+  buttonState=digitalRead(BUTTON);//read new state
+  if (isBusy) return; // Don't read RFID while door is moving
+    if (lastButtonState==HIGH && buttonState==LOW){
+      if (!isClosed){
+      isBusy=true;
+      closeDoor();
+      delay(500);
+      lockDoor();
+	digitalWrite(LED, LOW);
+      isBusy=false;
+      isClosed=true;
+    }
+  }
+  
+  // --- RFID Reading Logic ---
+  if (!rfid.PICC_IsNewCardPresent() || !rfid.PICC_ReadCardSerial()) {
+    return;
+  }
+
+  // Read UID
+  String uid = "";
+  for (byte i = 0; i < rfid.uid.size; i++) {
+    uid += (rfid.uid.uidByte[i] < 0x10 ? "0" : "");
+    uid += String(rfid.uid.uidByte[i], HEX);
+  }
+  uid.toUpperCase();
+  
+  Serial.println("RFID Scanned: " + uid);
+  latest_uid = uid; // Store it for Flask to pick up
+
+  rfid.PICC_HaltA();
+  rfid.PCD_StopCrypto1();
+  
+  delay(1000); // Debounce so one swipe doesn't register multiple times
+}
+
+// ==========================================
+// HARDWARE CONTROL FUNCTIONS (Unchanged)
+// ==========================================
+void unlockDoor(){
+  Serial.println("Unlocking Door");
+  digitalWrite(LED_Servo, HIGH);
+  myServo.write(180);
+}
+void openDoor(){
+  Serial.println("Opening Door");
+  digitalWrite(LED_Stepper, HIGH);
+  myStepper.step(1.5*stepsPerRevolution);
+}
+void closeDoor(){
+  Serial.println("Closing Door");
+  digitalWrite(LED_Stepper, LOW);
+  myStepper.step(-1.5*stepsPerRevolution);
+}
+void lockDoor(){
+  Serial.println("Locking Door");
+  digitalWrite(LED_Servo, LOW);
+  myServo.write(0);
+}

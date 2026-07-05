@@ -1,0 +1,802 @@
+[
+  {
+    "id": "2e91b997",
+    "timestamp": "2026-07-05T10:23:32.917522",
+    "user": "Ahmed",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/VWYhM0FH/6906a105c426.jpg"
+  },
+  {
+    "id": "7a5e099b",
+    "timestamp": "2026-07-05T10:23:25.148329",
+    "user": "Ahmed",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/mVwW2cjy/eda14638f4f1.jpg"
+  },
+  {
+    "id": "90cca47e",
+    "timestamp": "2026-07-05T10:23:24.617014",
+    "user": "Ahmed",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/99ykQYcZ/e500a11e959b.jpg"
+  },
+  {
+    "id": "8eeeef74",
+    "timestamp": "2026-07-05T10:23:22.994341",
+    "user": "Ahmed",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/s9V5Z73R/987a8fd15770.jpg"
+  },
+  {
+    "id": "15434de7",
+    "timestamp": "2026-07-05T10:23:22.860312",
+    "user": "Ahmed",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/kVx1jhQK/26370dbbb1ad.jpg"
+  },
+  {
+    "id": "bb15819b",
+    "timestamp": "2026-07-05T10:22:55.948332",
+    "user": "Ahmed",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/TDpvt45r/6f83cc22e91c.jpg"
+  },
+  {
+    "id": "95ad7eac",
+    "timestamp": "2026-07-05T10:21:39.233920",
+    "user": "rup",
+    "status": "Failed",
+    "message": "Face Mismatch",
+    "photo_url": "https://i.ibb.co/rKZQwhbd/1c4ad05bdef7.jpg"
+  },
+  {
+    "id": "d4881743",
+    "timestamp": "2026-07-05T10:20:34.514736",
+    "user": "rup",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/tMrVs1RW/49d5b847449f.jpg"
+  },
+  {
+    "id": "a70188eb",
+    "timestamp": "2026-07-05T10:20:28.908885",
+    "user": "rup",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/wFnVy7Zd/7a94dbde1571.jpg"
+  },
+  {
+    "id": "f3c233ee",
+    "timestamp": "2026-07-05T10:20:28.487969",
+    "user": "rup",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/qYxt8T3X/7065b22a977c.jpg"
+  },
+  {
+    "id": "24ef0408",
+    "timestamp": "2026-07-05T10:20:19.485687",
+    "user": "rup",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/7xwRgHhj/00bec215d4a9.jpg"
+  },
+  {
+    "id": "5efa81cd",
+    "timestamp": "2026-07-05T10:20:15.902944",
+    "user": "rup",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/7x1sM50Z/989d3d75fa41.jpg"
+  },
+  {
+    "id": "1b018909",
+    "timestamp": "2026-07-05T10:19:41.088028",
+    "user": "rup",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/WpspLQhK/568b63472839.jpg"
+  },
+  {
+    "id": "68daa8ed",
+    "timestamp": "2026-07-05T10:18:40.847992",
+    "user": "rup",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/rR3xY0xZ/c08b6a86790e.jpg"
+  },
+  {
+    "id": "7df406fd",
+    "timestamp": "2026-07-05T10:18:18.748742",
+    "user": "rup",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/XkXg2yRB/0f93ab5edd17.jpg"
+  },
+  {
+    "id": "c0490082",
+    "timestamp": "2026-07-05T10:17:43.600858",
+    "user": "rup",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/Kzp3KZpV/3591dfad0488.jpg"
+  },
+  {
+    "id": "c2303866",
+    "timestamp": "2026-07-05T10:17:42.167135",
+    "user": "rup",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/cSpF3F3B/e3c2b35821eb.jpg"
+  },
+  {
+    "id": "a3ed4c06",
+    "timestamp": "2026-07-05T10:17:29.463835",
+    "user": "rup",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/d0VCSgDJ/0c9077ec171a.jpg"
+  },
+  {
+    "id": "75ff1fcc",
+    "timestamp": "2026-07-05T10:15:00.497974",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/SXD49CV3/82cf1417c2c7.jpg"
+  },
+  {
+    "id": "0b473317",
+    "timestamp": "2026-07-05T10:15:00.471950",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/SXD49CV3/82cf1417c2c7.jpg"
+  },
+  {
+    "id": "93ee3f5a",
+    "timestamp": "2026-07-05T10:14:34.874960",
+    "user": "Faria",
+    "status": "Failed",
+    "message": "Face Mismatch",
+    "photo_url": "https://i.ibb.co/7tbz5pVZ/3f52ea7a70fd.jpg"
+  },
+  {
+    "id": "7af7955f",
+    "timestamp": "2026-07-05T10:14:34.463843",
+    "user": "Faria",
+    "status": "Failed",
+    "message": "Face Mismatch",
+    "photo_url": "https://i.ibb.co/Q7qsFRWB/9dafec08d6fa.jpg"
+  },
+  {
+    "id": "3e05c316",
+    "timestamp": "2026-07-05T10:11:00.666141",
+    "user": "rup",
+    "status": "Failed",
+    "message": "Face Mismatch",
+    "photo_url": "https://i.ibb.co/Ps9JGLj7/e5a5bd7f63e4.jpg"
+  },
+  {
+    "id": "e80ad973",
+    "timestamp": "2026-07-05T10:10:45.913707",
+    "user": "rup",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/qFs14R0B/4a12482781e8.jpg"
+  },
+  {
+    "id": "afe07751",
+    "timestamp": "2026-07-05T10:10:38.022776",
+    "user": "rup",
+    "status": "Failed",
+    "message": "Face Mismatch",
+    "photo_url": "https://i.ibb.co/zH52BtrJ/35f1341ab71c.jpg"
+  },
+  {
+    "id": "751fa51d",
+    "timestamp": "2026-07-05T10:10:37.808957",
+    "user": "rup",
+    "status": "Failed",
+    "message": "Face Mismatch",
+    "photo_url": "https://i.ibb.co/FbJjr6qk/6eda6610e15d.jpg"
+  },
+  {
+    "id": "062a2db8",
+    "timestamp": "2026-07-05T10:10:37.710144",
+    "user": "rup",
+    "status": "Failed",
+    "message": "Face Mismatch",
+    "photo_url": "https://i.ibb.co/J09HMZW/8b588ddb881b.jpg"
+  },
+  {
+    "id": "8d390eff",
+    "timestamp": "2026-07-05T10:10:17.627230",
+    "user": "Faria",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/KpGCgpwY/4969ce880d8e.jpg"
+  },
+  {
+    "id": "5efc87d7",
+    "timestamp": "2026-07-05T10:10:16.301647",
+    "user": "Faria",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/KpGCgpwY/4969ce880d8e.jpg"
+  },
+  {
+    "id": "115b682d",
+    "timestamp": "2026-07-05T10:09:34.527095",
+    "user": "Faria",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/1Gcc5dWs/d48223620376.jpg"
+  },
+  {
+    "id": "60a6a4c1",
+    "timestamp": "2026-07-05T10:09:13.649361",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/5Xb9ZdM2/d42b9563c110.jpg"
+  },
+  {
+    "id": "530fabda",
+    "timestamp": "2026-07-05T10:08:28.374446",
+    "user": "Faria",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/Z6GZNQSP/51452c791d32.jpg"
+  },
+  {
+    "id": "fa2ecd86",
+    "timestamp": "2026-07-05T10:08:21.421538",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/YBrfKvq5/d58a90c04786.jpg"
+  },
+  {
+    "id": "f5f53065",
+    "timestamp": "2026-07-05T10:08:20.997567",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/rRVScbsq/824ee92119b3.jpg"
+  },
+  {
+    "id": "22bf8d31",
+    "timestamp": "2026-07-05T10:07:59.487017",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/v68qfF87/0d26ebde94b6.jpg"
+  },
+  {
+    "id": "59bb6036",
+    "timestamp": "2026-07-05T10:07:52.731357",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/prB3Cv4y/4e65037e5862.jpg"
+  },
+  {
+    "id": "8f03c8d0",
+    "timestamp": "2026-07-05T10:07:28.679228",
+    "user": "Faria",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/N2YXL3rq/693f886393c4.jpg"
+  },
+  {
+    "id": "d6129c10",
+    "timestamp": "2026-07-05T10:07:01.320167",
+    "user": "rup",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/20Ly059q/7c034a0d9178.jpg"
+  },
+  {
+    "id": "b5439478",
+    "timestamp": "2026-07-05T10:06:48.623948",
+    "user": "rup",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/v8P3P0S/f5715cecd6d8.jpg"
+  },
+  {
+    "id": "c39fd620",
+    "timestamp": "2026-07-05T10:06:42.173773",
+    "user": "rup",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/xdhFnNQ/e0d7d9260383.jpg"
+  },
+  {
+    "id": "199b7809",
+    "timestamp": "2026-07-05T10:06:32.856460",
+    "user": "rup",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/Z6JKk2sw/33832d3c6010.jpg"
+  },
+  {
+    "id": "ed410b6a",
+    "timestamp": "2026-07-05T10:06:01.858553",
+    "user": "rup",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/wFLgPDX1/29c2a8baffab.jpg"
+  },
+  {
+    "id": "6fb4b66b",
+    "timestamp": "2026-07-05T10:02:29.128249",
+    "user": "Faria",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/Rp5jMLLs/ff5da62bf0a4.jpg"
+  },
+  {
+    "id": "186cd42e",
+    "timestamp": "2026-07-05T10:02:21.046557",
+    "user": "Faria",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/Ngcyb3WX/8069923a1fe3.jpg"
+  },
+  {
+    "id": "0b885f53",
+    "timestamp": "2026-07-05T10:02:09.579277",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/d0K6t3c9/b7031f0b19d5.jpg"
+  },
+  {
+    "id": "66c5d4ed",
+    "timestamp": "2026-07-05T10:02:02.010030",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/VptKw0rp/e988b22ce306.jpg"
+  },
+  {
+    "id": "c81ee06e",
+    "timestamp": "2026-07-05T10:01:50.222987",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/Xr6VNBpt/05380690763c.jpg"
+  },
+  {
+    "id": "bc0fabed",
+    "timestamp": "2026-07-05T10:01:49.819718",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/Xr6VNBpt/05380690763c.jpg"
+  },
+  {
+    "id": "39908fac",
+    "timestamp": "2026-07-05T10:01:14.292569",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/4ZJ0nvNF/a80aff312dd9.jpg"
+  },
+  {
+    "id": "db5d5581",
+    "timestamp": "2026-07-05T10:00:58.427569",
+    "user": "Faria",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/qFjc1wnB/40cdd9925f1f.jpg"
+  },
+  {
+    "id": "5dc03334",
+    "timestamp": "2026-07-05T10:00:57.391973",
+    "user": "Faria",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/qFjc1wnB/40cdd9925f1f.jpg"
+  },
+  {
+    "id": "ecf2edc5",
+    "timestamp": "2026-07-05T10:00:37.923954",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/LXpmXKcn/0672ba12a535.jpg"
+  },
+  {
+    "id": "aafaf59f",
+    "timestamp": "2026-07-05T10:00:30.467864",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/j9B3cmsJ/06b489ec68df.jpg"
+  },
+  {
+    "id": "777edc19",
+    "timestamp": "2026-07-05T10:00:28.326281",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/j9B3cmsJ/06b489ec68df.jpg"
+  },
+  {
+    "id": "6d9e526c",
+    "timestamp": "2026-07-05T10:00:20.739859",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/bgQpYXx2/857ea613aa37.jpg"
+  },
+  {
+    "id": "0966b218",
+    "timestamp": "2026-07-05T10:00:16.436503",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/bgQpYXx2/857ea613aa37.jpg"
+  },
+  {
+    "id": "56886e75",
+    "timestamp": "2026-07-05T10:00:14.688868",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/bgQpYXx2/857ea613aa37.jpg"
+  },
+  {
+    "id": "6c09466c",
+    "timestamp": "2026-07-05T10:00:05.689045",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/bgQpYXx2/857ea613aa37.jpg"
+  },
+  {
+    "id": "20fcb73b",
+    "timestamp": "2026-07-05T09:59:18.568955",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "2D photo detected (Flat Reflection)",
+    "photo_url": "https://i.ibb.co/7xjSk100/4bcbc429264b.jpg"
+  },
+  {
+    "id": "aea07a3c",
+    "timestamp": "2026-07-05T09:59:16.846585",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "2D photo detected (Flat Reflection)",
+    "photo_url": "https://i.ibb.co/7xjSk100/4bcbc429264b.jpg"
+  },
+  {
+    "id": "d1478dad",
+    "timestamp": "2026-07-05T09:59:15.422472",
+    "user": "Faria",
+    "status": "Failed",
+    "message": "Face Mismatch",
+    "photo_url": "https://i.ibb.co/C57NnfgH/6c0105d23ab8.jpg"
+  },
+  {
+    "id": "bc5d1d1b",
+    "timestamp": "2026-07-05T09:59:06.084021",
+    "user": "Faria",
+    "status": "Failed",
+    "message": "Face Mismatch",
+    "photo_url": "https://i.ibb.co/9HKFzvXR/40bdd46f24df.jpg"
+  },
+  {
+    "id": "f67131ac",
+    "timestamp": "2026-07-05T09:58:27.899264",
+    "user": "Faria",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/6R1kJ6cg/2ddd8a467b1b.jpg"
+  },
+  {
+    "id": "ac8fcfd5",
+    "timestamp": "2026-07-05T09:57:31.133296",
+    "user": "Ahmed",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/spwRL0V3/5246cfb790fa.jpg"
+  },
+  {
+    "id": "13b3513a",
+    "timestamp": "2026-07-05T09:57:17.322854",
+    "user": "Ahmed",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/Q7bcfKqK/c47eb8bc7d6d.jpg"
+  },
+  {
+    "id": "1b140eb7",
+    "timestamp": "2026-07-05T09:57:07.450515",
+    "user": "Ahmed",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/rRYcWyJ4/a70609f533ab.jpg"
+  },
+  {
+    "id": "ceff16ec",
+    "timestamp": "2026-07-05T09:57:02.608121",
+    "user": "Ahmed",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/sv5t7sYk/4e4c88e0be1a.jpg"
+  },
+  {
+    "id": "02563931",
+    "timestamp": "2026-07-05T09:56:50.617081",
+    "user": "Ahmed",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/fdwRbnFf/d5777572303e.jpg"
+  },
+  {
+    "id": "90bbc4b8",
+    "timestamp": "2026-07-05T09:55:58.993932",
+    "user": "Ahmed",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/yF6wbYPH/418054821607.jpg"
+  },
+  {
+    "id": "c9f53024",
+    "timestamp": "2026-07-05T09:55:54.898092",
+    "user": "Ahmed",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/WpnTSTCZ/52cdb7e9df04.jpg"
+  },
+  {
+    "id": "2bdc9128",
+    "timestamp": "2026-07-05T09:55:35.633099",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/bgj2L88z/cac9010441aa.jpg"
+  },
+  {
+    "id": "8122a60f",
+    "timestamp": "2026-07-05T09:55:32.783086",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/vvXh87jC/20b35d000864.jpg"
+  },
+  {
+    "id": "4f9a8597",
+    "timestamp": "2026-07-05T09:55:03.687017",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/6cF3K9wY/4422b69784b5.jpg"
+  },
+  {
+    "id": "02d8a965",
+    "timestamp": "2026-07-05T09:54:57.870869",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/DPF5KN4y/87de2d70ac78.jpg"
+  },
+  {
+    "id": "db9c3459",
+    "timestamp": "2026-07-05T09:54:40.460711",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/WQgVT9B/c74a2ecaaa9c.jpg"
+  },
+  {
+    "id": "ceddb853",
+    "timestamp": "2026-07-05T09:54:18.128399",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/23htt3RS/958720e92ce2.jpg"
+  },
+  {
+    "id": "1b332170",
+    "timestamp": "2026-07-05T09:53:44.525680",
+    "user": "Faria",
+    "status": "Failed",
+    "message": "Face Mismatch",
+    "photo_url": "https://i.ibb.co/6Rxpf2JZ/8a9eabd6d2a2.jpg"
+  },
+  {
+    "id": "881d62a1",
+    "timestamp": "2026-07-05T09:53:35.957279",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/mFcNPbDP/54e1b204fc80.jpg"
+  },
+  {
+    "id": "e1aeb0f8",
+    "timestamp": "2026-07-05T09:53:35.833382",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/mFcNPbDP/54e1b204fc80.jpg"
+  },
+  {
+    "id": "14e40026",
+    "timestamp": "2026-07-05T09:52:24.058978",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "2D photo detected (Flat Reflection)",
+    "photo_url": "https://i.ibb.co/93Yn56Jh/b86e4c537f2c.jpg"
+  },
+  {
+    "id": "1b191525",
+    "timestamp": "2026-07-05T09:52:11.237384",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/6cZnGHgz/64ceacc8992c.jpg"
+  },
+  {
+    "id": "206163b3",
+    "timestamp": "2026-07-05T09:51:05.304664",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "2D photo detected (Flat Reflection)",
+    "photo_url": "https://i.ibb.co/7J16nPQY/491b3bdeb42f.jpg"
+  },
+  {
+    "id": "1e3be02a",
+    "timestamp": "2026-07-05T09:49:23.928142",
+    "user": "Ahmed",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/QFK4CRQC/49ff26e0430f.jpg"
+  },
+  {
+    "id": "71bd8ac1",
+    "timestamp": "2026-07-05T09:48:51.911751",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "2D photo detected (Flat Reflection)",
+    "photo_url": "https://i.ibb.co/tp6NfVXK/8c8d46252267.jpg"
+  },
+  {
+    "id": "f33d8e58",
+    "timestamp": "2026-07-05T09:48:44.290226",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "2D photo detected (Flat Reflection)",
+    "photo_url": "https://i.ibb.co/RTNmtwPp/b8265ed2d7eb.jpg"
+  },
+  {
+    "id": "4368c41a",
+    "timestamp": "2026-07-05T09:48:22.476233",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "2D photo detected (Flat Reflection)",
+    "photo_url": "https://i.ibb.co/nN7PmxDR/581f25185f5f.jpg"
+  },
+  {
+    "id": "23e68750",
+    "timestamp": "2026-07-05T09:47:15.761462",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "2D photo detected (Flat Reflection)",
+    "photo_url": "https://i.ibb.co/Q73TZ33m/99b2d13ce67e.jpg"
+  },
+  {
+    "id": "bdf9fc49",
+    "timestamp": "2026-07-05T09:47:07.504034",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "2D photo detected (Flat Reflection)",
+    "photo_url": "https://i.ibb.co/JjJYLYTM/6b775f650557.jpg"
+  },
+  {
+    "id": "e4ff6691",
+    "timestamp": "2026-07-05T09:46:58.602819",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/W4KWWS1n/ec7e92ed7821.jpg"
+  },
+  {
+    "id": "69a983b4",
+    "timestamp": "2026-07-05T09:46:50.637136",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/YBDnHhL5/e80bd7a4e3bd.jpg"
+  },
+  {
+    "id": "4e852efe",
+    "timestamp": "2026-07-05T09:46:44.518185",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/8g5qsCpp/d59bc2cfe450.jpg"
+  },
+  {
+    "id": "d328288a",
+    "timestamp": "2026-07-05T09:46:31.223699",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/6JVNX13g/b8ec398155bf.jpg"
+  },
+  {
+    "id": "fb806057",
+    "timestamp": "2026-07-05T09:46:26.118587",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/yn1W3mHx/9ef84872c559.jpg"
+  },
+  {
+    "id": "d934770c",
+    "timestamp": "2026-07-05T09:46:10.913088",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/yn1W3mHx/9ef84872c559.jpg"
+  },
+  {
+    "id": "3090f2d7",
+    "timestamp": "2026-07-05T09:45:55.929531",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/ycXHTGyZ/1a2b2c789518.jpg"
+  },
+  {
+    "id": "0e7cae09",
+    "timestamp": "2026-07-05T09:44:32.375427",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "2D photo detected (Flat Reflection)",
+    "photo_url": "https://i.ibb.co/ds72KnFC/c125d9c8a9e4.jpg"
+  },
+  {
+    "id": "a5b8aa66",
+    "timestamp": "2026-07-05T09:44:31.863586",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "2D photo detected (Flat Reflection)",
+    "photo_url": "https://i.ibb.co/x8MDxfHP/6896446e1e28.jpg"
+  },
+  {
+    "id": "3597a492",
+    "timestamp": "2026-07-05T09:44:04.823662",
+    "user": "Faria",
+    "status": "Success",
+    "message": "Access Granted",
+    "photo_url": "https://i.ibb.co/TD7hyw5s/7d497ca6611e.jpg"
+  },
+  {
+    "id": "07274a87",
+    "timestamp": "2026-07-05T09:43:52.856406",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "No face detected during liveness check",
+    "photo_url": "https://i.ibb.co/MDHHk9sb/27bffc8669ca.jpg"
+  },
+  {
+    "id": "4abc9492",
+    "timestamp": "2026-07-05T09:43:20.615548",
+    "user": "Faria",
+    "status": "Spoof",
+    "message": "Blue light change not detected (Possible Screen/Backlight)",
+    "photo_url": "https://i.ibb.co/gFczR7c4/7db93cef5d5a.jpg"
+  }
+]

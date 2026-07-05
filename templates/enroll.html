@@ -4,77 +4,331 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enroll User - Smart Locker</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; }
-        .camera-container { position: relative; width: 100%; max-width: 640px; margin: 0 auto; }
-        .camera-container video { width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        #capturedImages img { height: 80px; object-fit: cover; border-radius: 4px; }
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --bg-color: #0f172a;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 2rem;
+            animation: fadeUp 0.5s ease-out forwards;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        input[readonly] {
+            background: rgba(15, 23, 42, 0.4);
+            color: var(--text-muted);
+        }
+
+        .form-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+        .text-success { color: var(--success); }
+        .text-primary { color: var(--primary); }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .input-group input {
+            flex: 1;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--text-main); }
+        .btn-outline:hover:not(:disabled) { background: rgba(99, 102, 241, 0.1); }
+        
+        .btn-success { background: var(--success); }
+        .btn-success:hover:not(:disabled) { background: #059669; }
+        
+        .btn-warning { background: var(--warning); color: #fff; }
+        .btn-warning:hover:not(:disabled) { background: #d97706; }
+        
+        .btn-info { background: var(--info); }
+        .btn-info:hover:not(:disabled) { background: #2563eb; }
+
+        .btn-danger-link {
+            background: transparent;
+            color: var(--danger);
+            width: 100%;
+            margin-top: 1rem;
+            padding: 0.5rem;
+        }
+        .btn-danger-link:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .btn-lg {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid var(--glass-border);
+            margin: 2rem 0;
+        }
+
+        .camera-container {
+            position: relative;
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 1rem;
+        }
+        .camera-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .captured-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            min-height: 100px;
+        }
+
+        .image-wrapper {
+            position: relative;
+        }
+
+        .image-wrapper img {
+            height: 80px;
+            border-radius: 0.5rem;
+            object-fit: cover;
+            border: 1px solid var(--glass-border);
+        }
+
+        .image-badge {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            font-size: 0.6rem;
+            padding: 2px 6px;
+            border-radius: 999px;
+            font-weight: bold;
+        }
+
+        .empty-text {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            align-self: center;
+            width: 100%;
+            text-align: center;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            animation: fadeUp 0.3s ease-out;
+            border: 1px solid transparent;
+        }
+        
+        .alert-success { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); color: #34d399; }
+        .alert-danger { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #f87171; }
+        .alert-info { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+
     </style>
 </head>
 <body>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">📝 Enroll New User</h4>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                Enroll New User
+            </h2>
+        </div>
+        
+        <form id="enrollmentForm">
+            <div class="form-group">
+                <label for="userName">User Name</label>
+                <input type="text" id="userName" placeholder="Enter full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="telegramChatId">Telegram Chat ID (Optional)</label>
+                <input type="text" id="telegramChatId" placeholder="e.g. 123456789">
+                <div class="form-text">Message the bot with /start to get your ID.</div>
+            </div>
+
+            <div class="form-group">
+                <label>RFID Card UID</label>
+                <div class="input-group">
+                    <input type="text" id="rfidUid" placeholder="Click button and scan card" readonly required>
+                    <button type="button" class="btn btn-info" id="scanRfidBtn">Scan RFID</button>
                 </div>
-                <div class="card-body">
-                    <form id="enrollmentForm">
-                        <!-- User Name Input -->
-                        <div class="mb-3">
-                            <label for="userName" class="form-label">User Name</label>
-                            <input type="text" class="form-control" id="userName" placeholder="Enter full name" required>
-                        </div>
+                <div id="rfidStatus" class="form-text">Click "Scan RFID" and present your card to the reader.</div>
+            </div>
 
-                        <!-- RFID Scan Section -->
-                        <div class="mb-3">
-                            <label class="form-label">RFID Card UID</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="rfidUid" placeholder="Click button and scan card" readonly required>
-                                <button type="button" class="btn btn-info text-white" id="scanRfidBtn">Scan RFID</button>
-                            </div>
-                            <div id="rfidStatus" class="form-text text-muted">Click "Scan RFID" and present your card to the reader.</div>
-                        </div>
+            <hr>
 
-                        <hr>
-
-                        <!-- Camera Section -->
-                        <div class="mb-3">
-                            <label class="form-label">Face Images (Minimum 3 required)</label>
-                            <div class="camera-container mb-2">
-                                <video id="video" width="640" height="480" autoplay></video>
-                                <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
-                            </div>
-                            <div class="d-flex gap-2 mt-2">
-                                <button type="button" class="btn btn-outline-primary" id="startCamera">Start Camera</button>
-                                <button type="button" class="btn btn-success" id="capture" disabled>Capture 1 Image</button>
-                                <button type="button" class="btn btn-warning text-white" id="captureMultiple" disabled>Auto-Capture 5 Images</button>
-                            </div>
-                        </div>
-
-                        <!-- Captured Images Preview -->
-                        <div class="mb-3">
-                            <label class="form-label">Captured Frames</label>
-                            <div id="capturedImages" class="d-flex flex-wrap gap-2 border rounded p-2 bg-light" style="min-height: 100px;">
-                                <span class="text-muted align-self-center" id="noImagesText">No images captured yet.</span>
-                            </div>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg" id="enrollBtn" disabled>Enroll User</button>
-                            <a href="/" class="btn btn-link mt-2 text-danger" id="cancelBtn">Cancel Enrollment</a>
-                        </div>
-                    </form>
-
-                    <!-- Status Messages -->
-                    <div id="status" class="mt-3"></div>
+            <div class="form-group">
+                <label>Face Images (Minimum 3 required)</label>
+                <div class="camera-container">
+                    <video id="video" autoplay></video>
+                    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline" id="startCamera">Start Camera</button>
+                    <button type="button" class="btn btn-success" id="capture" disabled>Capture 1 Image</button>
+                    <button type="button" class="btn btn-warning" id="captureMultiple" disabled>Auto-Capture 5 Images</button>
                 </div>
             </div>
-        </div>
+
+            <div class="form-group">
+                <label>Captured Frames</label>
+                <div id="capturedImages" class="captured-images">
+                    <span class="empty-text" id="noImagesText">No images captured yet.</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" id="enrollBtn" disabled>Enroll User</button>
+            <a href="/" class="btn btn-danger-link" id="cancelBtn">Cancel Enrollment</a>
+        </form>
+
+        <div id="status"></div>
     </div>
 </div>
 
@@ -103,7 +357,7 @@
         cancelBtn.addEventListener('click', async function(e) {
             e.preventDefault();
             await fetch('/api/enrollment/cancel', { method: 'POST' });
-            window.location.href = "/";
+            window.location.href = "/admin";
         });
 
         // Handle RFID Scan button
@@ -136,7 +390,7 @@
                 } catch (e) {
                     console.error("Polling error:", e);
                 }
-            }, 1000); // Poll every 1 second
+            }, 1000);
         });
 
         // Start camera
@@ -187,10 +441,10 @@
             if (noImagesText) noImagesText.style.display = 'none';
             
             const imgWrapper = document.createElement('div');
-            imgWrapper.className = 'position-relative';
+            imgWrapper.className = 'image-wrapper';
             imgWrapper.innerHTML = `
-                <img src="${imageData}" class="card-img-top" alt="Captured ${imageCount}">
-                <span class="position-absolute top-0 start-0 bg-dark text-white rounded-pill px-2 py-1 m-1" style="font-size: 0.7rem;">${imageCount}</span>
+                <img src="${imageData}" alt="Captured ${imageCount}">
+                <span class="image-badge">${imageCount}</span>
             `;
             capturedImagesDiv.appendChild(imgWrapper);
             
@@ -208,6 +462,7 @@
             e.preventDefault();
             
             const userName = document.getElementById('userName').value.trim();
+            const telegramChatId = document.getElementById('telegramChatId').value.trim();
             const rfidUid = rfidUidInput.value.trim();
             
             if (!userName || !rfidUid || capturedImages.length < 3) {
@@ -216,7 +471,7 @@
             }
             
             enrollBtn.disabled = true;
-            enrollBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enrolling...';
+            enrollBtn.innerHTML = 'Enrolling...';
             showStatus('Processing encodings... Please wait.', 'info');
             
             try {
@@ -225,6 +480,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         name: userName,
+                        telegram_chat_id: telegramChatId,
                         rfid_uid: rfidUid,
                         images: capturedImages
                     })
@@ -234,7 +490,7 @@
                 
                 if (result.success) {
                     showStatus(result.message + ' Redirecting...', 'success');
-                    setTimeout(() => { window.location.href = "/"; }, 2000);
+                    setTimeout(() => { window.location.href = "/admin"; }, 2000);
                 } else {
                     showStatus(result.message, 'danger');
                     enrollBtn.disabled = false;
@@ -243,14 +499,13 @@
                 showStatus('Error: ' + err.message, 'danger');
                 enrollBtn.disabled = false;
             } finally {
-                enrollBtn.innerHTML = 'Enroll User';
+                if (!enrollBtn.disabled) enrollBtn.innerHTML = 'Enroll User';
             }
         });
         
         function showStatus(message, type) {
-            statusDiv.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+            statusDiv.innerHTML = `<div class="alert alert-${type}">
                 ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>`;
         }
     });

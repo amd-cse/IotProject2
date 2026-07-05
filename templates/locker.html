@@ -2,32 +2,145 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Smart Locker Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Locker System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; }
-        .dashboard { text-align: center; margin-top: 50px; }
-        #video { border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); width: 100%; max-width: 640px; display: none; }
-        #statusText { font-size: 1.5rem; font-weight: bold; margin-top: 20px; }
+        :root {
+            --primary: #6366f1;
+            --success: #10b981;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --bg-color: #0f172a;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            animation: floatIn 0.6s ease-out forwards;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        @keyframes floatIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        
+        .subtitle {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .camera-container {
+            position: relative;
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            display: none; /* Hidden by default until RFID scan */
+            transition: all 0.3s ease;
+        }
+
+        .camera-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .status-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .footer-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+        
+        .footer-link:hover {
+            color: var(--text-main);
+        }
     </style>
 </head>
 <body>
-    <div class="container dashboard">
-        <h1>🔒 Smart Locker System</h1>
-        <p>Please scan your RFID tag on the reader to begin.</p>
+
+<div class="container">
+    <div class="card">
+        <h2 class="card-title">
+            <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            Smart Locker System
+        </h2>
+        <p class="subtitle">Please scan your RFID tag on the reader to begin.</p>
         
-        <video id="video" width="640" height="480" autoplay></video>
-        <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+        <div class="camera-container" id="camera-container">
+            <video id="video" width="640" height="480" autoplay></video>
+            <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+        </div>
         
-        <div id="statusText" class="mt-4">System Idle. Waiting for RFID...</div>
-        
-        <!-- Keep camera stream active in background for instant capture -->
-        <button id="hiddenInit" style="display:none;">Init Camera</button>
+        <div id="statusText" class="status-text">System Idle. Waiting for RFID...</div>
+
+        <a href="/admin" class="footer-link">Admin Dashboard</a>
     </div>
+</div>
 
-    <script>
-       // static/js/locker.js
-
+<script>
 let stream = null;
 let polling = true;
 let isProcessingLiveness = false; // Prevents double-triggering
@@ -36,17 +149,17 @@ let isProcessingLiveness = false; // Prevents double-triggering
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const statusText = document.getElementById('statusText');
+const cameraContainer = document.getElementById('camera-container');
 
 // Initialize camera immediately on page load so it's ready when RFID is scanned
 async function initCamera() {
     try {
         stream = await navigator.mediaDevices.getUserMedia({ video: true });
         video.srcObject = stream;
-        video.style.display = "none"; // Keep hidden until an RFID scan occurs
     } catch (err) {
         if (statusText) {
             statusText.innerText = "Camera Error: " + err.message;
-            statusText.style.color = "red";
+            statusText.style.color = "var(--danger)";
         }
         console.error("Camera access error:", err);
     }
@@ -66,26 +179,32 @@ async function checkStatus() {
         // Update UI message
         if (statusText) {
             statusText.innerText = data.message;
-            // Color code the status text
-            if (data.locker_status === 'idle') statusText.style.color = '#6c757d'; // Gray
-            else if (data.locker_status === 'awaiting_face') statusText.style.color = '#0d6efd'; // Blue
-            else if (data.locker_status === 'unlock') statusText.style.color = '#198754'; // Green
+            // Color code the status text based on mode
+            if (data.locker_status === 'idle') {
+                statusText.style.color = "var(--text-muted)";
+            } else if (data.locker_status === 'awaiting_face' || data.locker_status === 'authenticating') {
+                statusText.style.color = "var(--info)";
+            } else if (data.locker_status === 'unlock') {
+                statusText.style.color = "var(--success)";
+            }
         }
         
         // If an RFID was scanned, trigger the face liveness sequence
-        // FIX: Changed data.status to data.locker_status
-        if (data.locker_status === 'awaiting_face') {
+        if (data.locker_status === 'awaiting_face' || data.locker_status === 'authenticating') {
             isProcessingLiveness = true; // Lock the sequence
             polling = false; // Stop polling while we capture and process
             
-            if (video) video.style.display = "block";
+            if (cameraContainer) cameraContainer.style.display = "block";
             if (statusText) statusText.innerText = "Scanning face... Please look at the camera.";
             
             try {
                 await triggerLivenessCheck();
             } catch (error) {
                 console.error("Liveness sequence error:", error);
-                if (statusText) statusText.innerText = "Error: " + error.message;
+                if (statusText) {
+                    statusText.innerText = "Error: " + error.message;
+                    statusText.style.color = "var(--danger)";
+                }
             } finally {
                 // Resume polling after sequence is complete or fails
                 isProcessingLiveness = false;
@@ -93,7 +212,7 @@ async function checkStatus() {
             }
         } else if (data.locker_status === 'idle' || data.locker_status === 'unlock') {
             // Hide video when system is idle or unlocking
-            if (video) video.style.display = "none";
+            if (cameraContainer) cameraContainer.style.display = "none";
         }
     } catch (e) {
         console.error("Polling error:", e);
@@ -145,11 +264,17 @@ async function triggerLivenessCheck() {
     const result = await response.json();
     console.log("Authentication response:", result);
     
+    // If it failed, show red error text temporarily
+    if (!result.success) {
+        statusText.style.color = "var(--danger)";
+    }
+    
     // The UI status will update automatically via polling in the next tick.
 }
 
 // Start polling the server every 1 second
 setInterval(checkStatus, 1000);
-    </script>
+</script>
+
 </body>
 </html>

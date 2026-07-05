@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Smart Locker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --success: #10b981;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+            --bg-color: #0f172a;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .brand svg {
+            color: var(--primary);
+            width: 24px;
+            height: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--text-muted);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            animation: fadeUp 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-success { background: rgba(16, 185, 129, 0.1); color: #34d399; }
+        .status-spoof { background: rgba(239, 68, 68, 0.1); color: #f87171; }
+        .status-failed { background: rgba(245, 158, 11, 0.1); color: #fbbf24; }
+
+        .log-photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.5rem;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 1px solid var(--glass-border);
+        }
+
+        .log-photo:hover {
+            transform: scale(1.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active { display: flex; }
+
+        .modal-content {
+            background: var(--bg-color);
+            padding: 1rem;
+            border-radius: 1rem;
+            border: 1px solid var(--glass-border);
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .modal-img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 0.5rem;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--success);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+            font-weight: 500;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+            Admin Dashboard
+        </div>
+        <div class="nav-links">
+            <button onclick="remoteUnlock()" class="btn btn-success">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+                Remote Unlock
+            </button>
+            <a href="/logout" class="btn btn-outline">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Access Logs</h2>
+                <button onclick="fetchLogs()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                </button>
+            </div>
+            <div style="overflow-x: auto;">
+                <table id="logsTable">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>User</th>
+                            <th>Status</th>
+                            <th>Message</th>
+                            <th>Photo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logsBody">
+                        <tr><td colspan="5" class="empty-state">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Enrolled Users</h2>
+                <a href="/enroll" class="btn">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    Enroll New User
+                </a>
+            </div>
+            <div style="overflow-x: auto;">
+                <table id="usersTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>RFID UID</th>
+                            <th>Enrolled Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersBody">
+                        <tr><td colspan="4" class="empty-state">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal" onclick="this.classList.remove('active')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img id="modalImg" class="modal-img" src="" alt="Security Photo">
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Command Sent Successfully</div>
+
+    <script>
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function openModal(imgUrl) {
+            document.getElementById('modalImg').src = imgUrl;
+            document.getElementById('imageModal').classList.add('active');
+        }
+
+        function formatDate(isoString) {
+            const d = new Date(isoString);
+            return d.toLocaleString();
+        }
+
+        async function fetchLogs() {
+            try {
+                const res = await fetch('/api/admin/logs');
+                const logs = await res.json();
+                const tbody = document.getElementById('logsBody');
+                
+                if (logs.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No access logs found.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = logs.map(log => {
+                    let statusClass = 'status-failed';
+                    if (log.status === 'Success') statusClass = 'status-success';
+                    if (log.status === 'Spoof') statusClass = 'status-spoof';
+                    
+                    const photoHtml = log.photo_url 
+                        ? `<img src="${log.photo_url}" class="log-photo" onclick="openModal('${log.photo_url}')" title="Click to enlarge">`
+                        : `<span style="color:var(--text-muted);font-size:0.75rem;">None</span>`;
+
+                    return `
+                        <tr>
+                            <td style="color:var(--text-muted);font-size:0.875rem;">${formatDate(log.timestamp)}</td>
+                            <td style="font-weight:500;">${log.user || 'Unknown'}</td>
+                            <td><span class="status-badge ${statusClass}">${log.status}</span></td>
+                            <td style="font-size:0.875rem;">${log.message}</td>
+                            <td>${photoHtml}</td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function fetchUsers() {
+            try {
+                const res = await fetch('/api/admin/users');
+                const usersMap = await res.json();
+                const tbody = document.getElementById('usersBody');
+                
+                const users = Object.entries(usersMap).map(([name, data]) => ({name, ...data}));
+                
+                if (users.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" class="empty-state">No users enrolled.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = users.map(user => `
+                    <tr>
+                        <td style="font-weight:500; font-size:1.1rem;">${user.name}</td>
+                        <td style="font-family:monospace; color:var(--text-muted);">${user.rfid_uid}</td>
+                        <td style="color:var(--text-muted);font-size:0.875rem;">${formatDate(user.enrollment_date)}</td>
+                        <td>
+                            <button onclick="deleteUser('${user.name}')" class="btn btn-danger" style="padding: 0.4rem 0.75rem; font-size: 0.75rem;">
+                                Revoke
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function deleteUser(name) {
+            if (!confirm(`Are you sure you want to completely revoke access for ${name}?`)) return;
+            
+            try {
+                const res = await fetch(`/api/admin/users/${encodeURIComponent(name)}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`User ${name} deleted`);
+                    fetchUsers();
+                } else {
+                    alert(data.message);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function remoteUnlock() {
+            try {
+                const res = await fetch('/api/admin/unlock', { method: 'POST' });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('Locker remotely unlocked!');
+                    setTimeout(fetchLogs, 1000);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        // Initialize
+        fetchLogs();
+        fetchUsers();
+        
+        // Auto-refresh logs every 10 seconds
+        setInterval(fetchLogs, 10000);
+    </script>
+</body>
+</html>
