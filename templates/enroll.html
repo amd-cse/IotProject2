@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +30,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            background-image: 
+            background-image:
                 radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
                 radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
             background-attachment: fixed;
@@ -56,8 +57,15 @@
         }
 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .card-header {
@@ -115,8 +123,14 @@
             color: var(--text-muted);
             margin-top: 0.25rem;
         }
-        .text-success { color: var(--success); }
-        .text-primary { color: var(--primary); }
+
+        .text-success {
+            color: var(--success);
+        }
+
+        .text-primary {
+            color: var(--primary);
+        }
 
         .input-group {
             display: flex;
@@ -156,17 +170,40 @@
             transform: none;
         }
 
-        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--text-main); }
-        .btn-outline:hover:not(:disabled) { background: rgba(99, 102, 241, 0.1); }
-        
-        .btn-success { background: var(--success); }
-        .btn-success:hover:not(:disabled) { background: #059669; }
-        
-        .btn-warning { background: var(--warning); color: #fff; }
-        .btn-warning:hover:not(:disabled) { background: #d97706; }
-        
-        .btn-info { background: var(--info); }
-        .btn-info:hover:not(:disabled) { background: #2563eb; }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #059669;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: #fff;
+        }
+
+        .btn-warning:hover:not(:disabled) {
+            background: #d97706;
+        }
+
+        .btn-info {
+            background: var(--info);
+        }
+
+        .btn-info:hover:not(:disabled) {
+            background: #2563eb;
+        }
 
         .btn-danger-link {
             background: transparent;
@@ -175,6 +212,7 @@
             margin-top: 1rem;
             padding: 0.5rem;
         }
+
         .btn-danger-link:hover {
             background: rgba(239, 68, 68, 0.1);
         }
@@ -195,12 +233,13 @@
         .camera-container {
             position: relative;
             width: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 1rem;
             overflow: hidden;
             border: 1px solid var(--glass-border);
             margin-bottom: 1rem;
         }
+
         .camera-container video {
             width: 100%;
             height: auto;
@@ -239,7 +278,7 @@
             position: absolute;
             top: 4px;
             left: 4px;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.8);
             color: white;
             font-size: 0.6rem;
             padding: 2px 6px;
@@ -263,253 +302,271 @@
             animation: fadeUp 0.3s ease-out;
             border: 1px solid transparent;
         }
-        
-        .alert-success { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); color: #34d399; }
-        .alert-danger { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #f87171; }
-        .alert-info { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2); color: #60a5fa; }
 
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">
-                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                Enroll New User
-            </h2>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    Enroll New User
+                </h2>
+            </div>
+
+            <form id="enrollmentForm">
+                <div class="form-group">
+                    <label for="userName">User Name</label>
+                    <input type="text" id="userName" placeholder="Enter full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telegramChatId">Telegram Chat ID (Optional)</label>
+                    <input type="text" id="telegramChatId" placeholder="e.g. 123456789">
+                    <div class="form-text">Message the bot with /start to get your ID.</div>
+                </div>
+
+                <div class="form-group">
+                    <label>RFID Card UID</label>
+                    <div class="input-group">
+                        <input type="text" id="rfidUid" placeholder="Click button and scan card" readonly required>
+                        <button type="button" class="btn btn-info" id="scanRfidBtn">Scan RFID</button>
+                    </div>
+                    <div id="rfidStatus" class="form-text">Click "Scan RFID" and present your card to the reader.</div>
+                </div>
+
+                <hr>
+
+                <div class="form-group">
+                    <label>Face Images (Minimum 3 required)</label>
+                    <div class="camera-container">
+                        <video id="video" autoplay></video>
+                        <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline" id="startCamera">Start Camera</button>
+                        <button type="button" class="btn btn-success" id="capture" disabled>Capture 1 Image</button>
+                        <button type="button" class="btn btn-warning" id="captureMultiple" disabled>Auto-Capture 5
+                            Images</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Captured Frames</label>
+                    <div id="capturedImages" class="captured-images">
+                        <span class="empty-text" id="noImagesText">No images captured yet.</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" id="enrollBtn" disabled>Enroll User</button>
+                <a href="/" class="btn btn-danger-link" id="cancelBtn">Cancel Enrollment</a>
+            </form>
+
+            <div id="status"></div>
         </div>
-        
-        <form id="enrollmentForm">
-            <div class="form-group">
-                <label for="userName">User Name</label>
-                <input type="text" id="userName" placeholder="Enter full name" required>
-            </div>
-
-            <div class="form-group">
-                <label for="telegramChatId">Telegram Chat ID (Optional)</label>
-                <input type="text" id="telegramChatId" placeholder="e.g. 123456789">
-                <div class="form-text">Message the bot with /start to get your ID.</div>
-            </div>
-
-            <div class="form-group">
-                <label>RFID Card UID</label>
-                <div class="input-group">
-                    <input type="text" id="rfidUid" placeholder="Click button and scan card" readonly required>
-                    <button type="button" class="btn btn-info" id="scanRfidBtn">Scan RFID</button>
-                </div>
-                <div id="rfidStatus" class="form-text">Click "Scan RFID" and present your card to the reader.</div>
-            </div>
-
-            <hr>
-
-            <div class="form-group">
-                <label>Face Images (Minimum 3 required)</label>
-                <div class="camera-container">
-                    <video id="video" autoplay></video>
-                    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-outline" id="startCamera">Start Camera</button>
-                    <button type="button" class="btn btn-success" id="capture" disabled>Capture 1 Image</button>
-                    <button type="button" class="btn btn-warning" id="captureMultiple" disabled>Auto-Capture 5 Images</button>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Captured Frames</label>
-                <div id="capturedImages" class="captured-images">
-                    <span class="empty-text" id="noImagesText">No images captured yet.</span>
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-lg" id="enrollBtn" disabled>Enroll User</button>
-            <a href="/" class="btn btn-danger-link" id="cancelBtn">Cancel Enrollment</a>
-        </form>
-
-        <div id="status"></div>
     </div>
-</div>
 
-<script>
-    let stream = null;
-    let capturedImages = [];
-    let imageCount = 0;
-    let rfidPolling = false;
+    <script>
+        let stream = null;
+        let capturedImages = [];
+        let imageCount = 0;
+        let rfidPolling = false;
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
-        const startCameraBtn = document.getElementById('startCamera');
-        const captureBtn = document.getElementById('capture');
-        const captureMultipleBtn = document.getElementById('captureMultiple');
-        const enrollBtn = document.getElementById('enrollBtn');
-        const capturedImagesDiv = document.getElementById('capturedImages');
-        const noImagesText = document.getElementById('noImagesText');
-        const statusDiv = document.getElementById('status');
-        const scanRfidBtn = document.getElementById('scanRfidBtn');
-        const rfidUidInput = document.getElementById('rfidUid');
-        const rfidStatus = document.getElementById('rfidStatus');
-        const cancelBtn = document.getElementById('cancelBtn');
+        document.addEventListener('DOMContentLoaded', function () {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const startCameraBtn = document.getElementById('startCamera');
+            const captureBtn = document.getElementById('capture');
+            const captureMultipleBtn = document.getElementById('captureMultiple');
+            const enrollBtn = document.getElementById('enrollBtn');
+            const capturedImagesDiv = document.getElementById('capturedImages');
+            const noImagesText = document.getElementById('noImagesText');
+            const statusDiv = document.getElementById('status');
+            const scanRfidBtn = document.getElementById('scanRfidBtn');
+            const rfidUidInput = document.getElementById('rfidUid');
+            const rfidStatus = document.getElementById('rfidStatus');
+            const cancelBtn = document.getElementById('cancelBtn');
 
-        // Handle Cancel button
-        cancelBtn.addEventListener('click', async function(e) {
-            e.preventDefault();
-            await fetch('/api/enrollment/cancel', { method: 'POST' });
-            window.location.href = "/admin";
-        });
+            // Handle Cancel button
+            cancelBtn.addEventListener('click', async function (e) {
+                e.preventDefault();
+                await fetch('/api/enrollment/cancel', { method: 'POST' });
+                window.location.href = "/admin";
+            });
 
-        // Handle RFID Scan button
-        scanRfidBtn.addEventListener('click', async function() {
-            scanRfidBtn.disabled = true;
-            rfidStatus.innerText = "Waiting for card... Please scan on ESP32.";
-            rfidStatus.className = "form-text text-primary";
-            rfidPolling = true;
-            
-            // Start polling Flask for the UID
-            const pollInterval = setInterval(async () => {
-                if (!rfidPolling) {
-                    clearInterval(pollInterval);
-                    return;
-                }
-                
-                try {
-                    const res = await fetch('/api/enrollment/scan_rfid');
-                    const data = await res.json();
-                    
-                    if (data.success && data.uid) {
-                        rfidUidInput.value = data.uid;
-                        rfidStatus.innerText = "RFID UID captured successfully!";
-                        rfidStatus.className = "form-text text-success";
-                        rfidPolling = false;
+            // Handle RFID Scan button
+            scanRfidBtn.addEventListener('click', async function () {
+                scanRfidBtn.disabled = true;
+                rfidStatus.innerText = "Waiting for card... Please scan on ESP32.";
+                rfidStatus.className = "form-text text-primary";
+                rfidPolling = true;
+
+                // Start polling Flask for the UID
+                const pollInterval = setInterval(async () => {
+                    if (!rfidPolling) {
                         clearInterval(pollInterval);
-                        scanRfidBtn.disabled = false;
-                        checkFormCompletion();
+                        return;
                     }
-                } catch (e) {
-                    console.error("Polling error:", e);
-                }
-            }, 1000);
-        });
 
-        // Start camera
-        startCameraBtn.addEventListener('click', async function() {
-            try {
-                stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                video.srcObject = stream;
-                captureBtn.disabled = false;
-                captureMultipleBtn.disabled = false;
-                startCameraBtn.disabled = true;
-                showStatus('Camera started successfully', 'success');
-            } catch (err) {
-                showStatus('Error accessing camera: ' + err.message, 'danger');
-            }
-        });
-        
-        // Capture single image
-        captureBtn.addEventListener('click', function() {
-            captureImage();
-        });
-        
-        // Capture multiple images
-        captureMultipleBtn.addEventListener('click', async function() {
-            captureMultipleBtn.disabled = true;
-            captureBtn.disabled = true;
-            showStatus('Capturing 5 images... Please hold still.', 'info');
-            
-            for (let i = 0; i < 5; i++) {
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                    try {
+                        const res = await fetch('/api/enrollment/scan_rfid');
+                        const data = await res.json();
+
+                        if (data.success && data.uid) {
+                            rfidUidInput.value = data.uid;
+                            rfidStatus.innerText = "RFID UID captured successfully!";
+                            rfidStatus.className = "form-text text-success";
+                            rfidPolling = false;
+                            clearInterval(pollInterval);
+                            scanRfidBtn.disabled = false;
+                            checkFormCompletion();
+                        }
+                    } catch (e) {
+                        console.error("Polling error:", e);
+                    }
+                }, 1000);
+            });
+
+            // Start camera
+            startCameraBtn.addEventListener('click', async function () {
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    video.srcObject = stream;
+                    captureBtn.disabled = false;
+                    captureMultipleBtn.disabled = false;
+                    startCameraBtn.disabled = true;
+                    showStatus('Camera started successfully', 'success');
+                } catch (err) {
+                    showStatus('Error accessing camera: ' + err.message, 'danger');
+                }
+            });
+
+            // Capture single image
+            captureBtn.addEventListener('click', function () {
                 captureImage();
-                showStatus(`Capturing image ${i + 1} of 5...`, 'info');
-            }
-            
-            captureMultipleBtn.disabled = false;
-            captureBtn.disabled = false;
-            showStatus('All 5 images captured!', 'success');
-            setTimeout(() => { statusDiv.innerHTML = ''; }, 3000);
-        });
-        
-        function captureImage() {
-            const context = canvas.getContext('2d');
-            context.drawImage(video, 0, 0, 640, 480);
-            
-            const imageData = canvas.toDataURL('image/jpeg');
-            capturedImages.push(imageData);
-            imageCount++;
-            
-            if (noImagesText) noImagesText.style.display = 'none';
-            
-            const imgWrapper = document.createElement('div');
-            imgWrapper.className = 'image-wrapper';
-            imgWrapper.innerHTML = `
+            });
+
+            // Capture multiple images
+            captureMultipleBtn.addEventListener('click', async function () {
+                captureMultipleBtn.disabled = true;
+                captureBtn.disabled = true;
+                showStatus('Capturing 5 images... Please hold still.', 'info');
+
+                for (let i = 0; i < 5; i++) {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    captureImage();
+                    showStatus(`Capturing image ${i + 1} of 5...`, 'info');
+                }
+
+                captureMultipleBtn.disabled = false;
+                captureBtn.disabled = false;
+                showStatus('All 5 images captured!', 'success');
+                setTimeout(() => { statusDiv.innerHTML = ''; }, 3000);
+            });
+
+            function captureImage() {
+                const context = canvas.getContext('2d');
+                context.drawImage(video, 0, 0, 640, 480);
+
+                const imageData = canvas.toDataURL('image/jpeg');
+                capturedImages.push(imageData);
+                imageCount++;
+
+                if (noImagesText) noImagesText.style.display = 'none';
+
+                const imgWrapper = document.createElement('div');
+                imgWrapper.className = 'image-wrapper';
+                imgWrapper.innerHTML = `
                 <img src="${imageData}" alt="Captured ${imageCount}">
                 <span class="image-badge">${imageCount}</span>
             `;
-            capturedImagesDiv.appendChild(imgWrapper);
-            
-            checkFormCompletion();
-        }
+                capturedImagesDiv.appendChild(imgWrapper);
 
-        function checkFormCompletion() {
-            if (capturedImages.length >= 3 && rfidUidInput.value) {
-                enrollBtn.disabled = false;
+                checkFormCompletion();
             }
-        }
-        
-        // Form submission
-        document.getElementById('enrollmentForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const userName = document.getElementById('userName').value.trim();
-            const telegramChatId = document.getElementById('telegramChatId').value.trim();
-            const rfidUid = rfidUidInput.value.trim();
-            
-            if (!userName || !rfidUid || capturedImages.length < 3) {
-                showStatus('Please complete all fields and capture images.', 'danger');
-                return;
-            }
-            
-            enrollBtn.disabled = true;
-            enrollBtn.innerHTML = 'Enrolling...';
-            showStatus('Processing encodings... Please wait.', 'info');
-            
-            try {
-                const response = await fetch('/enroll', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        name: userName,
-                        telegram_chat_id: telegramChatId,
-                        rfid_uid: rfidUid,
-                        images: capturedImages
-                    })
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    showStatus(result.message + ' Redirecting...', 'success');
-                    setTimeout(() => { window.location.href = "/admin"; }, 2000);
-                } else {
-                    showStatus(result.message, 'danger');
+
+            function checkFormCompletion() {
+                if (capturedImages.length >= 3 && rfidUidInput.value) {
                     enrollBtn.disabled = false;
                 }
-            } catch (err) {
-                showStatus('Error: ' + err.message, 'danger');
-                enrollBtn.disabled = false;
-            } finally {
-                if (!enrollBtn.disabled) enrollBtn.innerHTML = 'Enroll User';
             }
-        });
-        
-        function showStatus(message, type) {
-            statusDiv.innerHTML = `<div class="alert alert-${type}">
+
+            // Form submission
+            document.getElementById('enrollmentForm').addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const userName = document.getElementById('userName').value.trim();
+                const telegramChatId = document.getElementById('telegramChatId').value.trim();
+                const rfidUid = rfidUidInput.value.trim();
+
+                if (!userName || !rfidUid || capturedImages.length < 3) {
+                    showStatus('Please complete all fields and capture images.', 'danger');
+                    return;
+                }
+
+                enrollBtn.disabled = true;
+                enrollBtn.innerHTML = 'Enrolling...';
+                showStatus('Processing encodings... Please wait.', 'info');
+
+                try {
+                    const response = await fetch('/enroll', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            name: userName,
+                            telegram_chat_id: telegramChatId,
+                            rfid_uid: rfidUid,
+                            images: capturedImages
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        showStatus(result.message + ' Redirecting...', 'success');
+                        setTimeout(() => { window.location.href = "/admin"; }, 2000);
+                    } else {
+                        showStatus(result.message, 'danger');
+                        enrollBtn.disabled = false;
+                    }
+                } catch (err) {
+                    showStatus('Error: ' + err.message, 'danger');
+                    enrollBtn.disabled = false;
+                } finally {
+                    if (!enrollBtn.disabled) enrollBtn.innerHTML = 'Enroll User';
+                }
+            });
+
+            function showStatus(message, type) {
+                statusDiv.innerHTML = `<div class="alert alert-${type}">
                 ${message}
             </div>`;
-        }
-    });
-</script>
+            }
+        });
+    </script>
 
 </body>
+
 </html>

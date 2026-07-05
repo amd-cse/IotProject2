@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +29,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            background-image: 
+            background-image:
                 radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
                 radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
             background-attachment: fixed;
@@ -135,8 +136,15 @@
         }
 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .card-header {
@@ -156,7 +164,8 @@
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             padding: 1rem;
             text-align: left;
             border-bottom: 1px solid var(--glass-border);
@@ -183,9 +192,20 @@
             font-weight: 600;
         }
 
-        .status-success { background: rgba(16, 185, 129, 0.1); color: #34d399; }
-        .status-spoof { background: rgba(239, 68, 68, 0.1); color: #f87171; }
-        .status-failed { background: rgba(245, 158, 11, 0.1); color: #fbbf24; }
+        .status-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+        }
+
+        .status-spoof {
+            background: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+        }
+
+        .status-failed {
+            background: rgba(245, 158, 11, 0.1);
+            color: #fbbf24;
+        }
 
         .log-photo {
             width: 40px;
@@ -211,7 +231,10 @@
         .modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(5px);
             z-index: 100;
@@ -219,7 +242,9 @@
             justify-content: center;
         }
 
-        .modal.active { display: flex; }
+        .modal.active {
+            display: flex;
+        }
 
         .modal-content {
             background: var(--bg-color);
@@ -257,21 +282,27 @@
             transform: translateY(0);
             opacity: 1;
         }
-
     </style>
 </head>
+
 <body>
 
     <nav class="navbar">
         <div class="brand">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                </path>
             </svg>
             Admin Dashboard
         </div>
         <div class="nav-links">
             <button onclick="remoteUnlock()" class="btn btn-success">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z">
+                    </path>
+                </svg>
                 Remote Unlock
             </button>
             <a href="/logout" class="btn btn-outline">Logout</a>
@@ -279,12 +310,16 @@
     </nav>
 
     <div class="container">
-        
+
         <div class="card">
             <div class="card-header">
                 <h2 class="card-title">Access Logs</h2>
                 <button onclick="fetchLogs()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                        </path>
+                    </svg>
                 </button>
             </div>
             <div style="overflow-x: auto;">
@@ -299,7 +334,9 @@
                         </tr>
                     </thead>
                     <tbody id="logsBody">
-                        <tr><td colspan="5" class="empty-state">Loading...</td></tr>
+                        <tr>
+                            <td colspan="5" class="empty-state">Loading...</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -309,7 +346,9 @@
             <div class="card-header">
                 <h2 class="card-title">Enrolled Users</h2>
                 <a href="/enroll" class="btn">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
                     Enroll New User
                 </a>
             </div>
@@ -324,7 +363,9 @@
                         </tr>
                     </thead>
                     <tbody id="usersBody">
-                        <tr><td colspan="4" class="empty-state">Loading...</td></tr>
+                        <tr>
+                            <td colspan="4" class="empty-state">Loading...</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -365,7 +406,7 @@
                 const res = await fetch('/api/admin/logs');
                 const logs = await res.json();
                 const tbody = document.getElementById('logsBody');
-                
+
                 if (logs.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No access logs found.</td></tr>';
                     return;
@@ -375,8 +416,8 @@
                     let statusClass = 'status-failed';
                     if (log.status === 'Success') statusClass = 'status-success';
                     if (log.status === 'Spoof') statusClass = 'status-spoof';
-                    
-                    const photoHtml = log.photo_url 
+
+                    const photoHtml = log.photo_url
                         ? `<img src="${log.photo_url}" class="log-photo" onclick="openModal('${log.photo_url}')" title="Click to enlarge">`
                         : `<span style="color:var(--text-muted);font-size:0.75rem;">None</span>`;
 
@@ -400,9 +441,9 @@
                 const res = await fetch('/api/admin/users');
                 const usersMap = await res.json();
                 const tbody = document.getElementById('usersBody');
-                
-                const users = Object.entries(usersMap).map(([name, data]) => ({name, ...data}));
-                
+
+                const users = Object.entries(usersMap).map(([name, data]) => ({ name, ...data }));
+
                 if (users.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="4" class="empty-state">No users enrolled.</td></tr>';
                     return;
@@ -427,7 +468,7 @@
 
         async function deleteUser(name) {
             if (!confirm(`Are you sure you want to completely revoke access for ${name}?`)) return;
-            
+
             try {
                 const res = await fetch(`/api/admin/users/${encodeURIComponent(name)}`, { method: 'DELETE' });
                 const data = await res.json();
@@ -458,9 +499,10 @@
         // Initialize
         fetchLogs();
         fetchUsers();
-        
+
         // Auto-refresh logs every 10 seconds
         setInterval(fetchLogs, 10000);
     </script>
 </body>
+
 </html>

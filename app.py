@@ -74,10 +74,13 @@ def save_access_logs(logs):
     with open(ACCESS_LOGS_DB, 'w') as f:
         json.dump(logs, f, indent=2)
 
-def log_access_attempt(user_name, status, message, image_data=None):
+def log_access_attempt(user_name, status, message, image_data=None, std_dev=None, glare_ratio=None, euclidean_distance=None):
     photo_url = None
     if image_data and IMGBB_API_KEY:
         photo_url = upload_to_imgbb(image_data)
+        
+    def safe_float(val):
+        return float(val) if val is not None else None
         
     log_entry = {
         "id": str(uuid.uuid4())[:8],
@@ -85,7 +88,10 @@ def log_access_attempt(user_name, status, message, image_data=None):
         "user": user_name,
         "status": status,
         "message": message,
-        "photo_url": photo_url
+        "photo_url": photo_url,
+        "std_dev": safe_float(std_dev),
+        "glare_ratio": safe_float(glare_ratio),
+        "euclidean_distance": safe_float(euclidean_distance)
     }
     
     logs = load_access_logs()
@@ -232,7 +238,7 @@ def verify_blue_light(ambient_frame_data, illuminated_frame_data):
         # 2. Find the face
         face_locations = face_recognition.face_locations(illuminated_img)
         if len(face_locations) == 0:
-            return False, "No face detected during liveness check"
+            return False, "No face detected during liveness check", None, None
         
         top, right, bottom, left = face_locations[0]
         ambient_face = ambient_img[top:bottom, left:right]
@@ -244,7 +250,7 @@ def verify_blue_light(ambient_frame_data, illuminated_frame_data):
         
         if not (illuminated_ratio > 0.05 and illuminated_ratio > ambient_ratio * 1.5):
              # Phone screens often fail this because their backlight overpowers the LED
-            return False, "Blue light change not detected (Possible Screen/Backlight)"
+            return False, "Blue light change not detected (Possible Screen/Backlight)", None, None
 
         # --- ADVANCED LIVENESS CHECKS ---
         
@@ -267,9 +273,6 @@ def verify_blue_light(ambient_frame_data, illuminated_frame_data):
         print(f"[CALIBRATION] Max Illuminated Blue: {np.max(illuminated_b)}, Max Blue Diff: {np.max(diff_b)}")
         print(f"[CALIBRATION] Glare Ratio: {glare_ratio:.4f} (Threshold: > 0.015 fails)")
         
-        if glare_ratio > 0.015: # If more than 1.5% of the face is pure glare
-            return False, "Screen or glossy photo detected (Glass Glare)"
-            
         # B. Detect Flat 2D Surfaces (Matte Photos)
         # Calculate how "uneven" the light reflection is. 
         # 3D faces = uneven (high std), Flat paper = uniform (low std)
@@ -277,12 +280,15 @@ def verify_blue_light(ambient_frame_data, illuminated_frame_data):
         tuned_threshold = 12.0 # Increased from 12.0 to 14.0 for better sensitivity
         print(f"[CALIBRATION] Standard Deviation: {std_dev:.2f} (Threshold: < {tuned_threshold} fails)")
         
-        if std_dev < tuned_threshold: 
-            return False, "2D photo detected (Flat Reflection)"
+        if glare_ratio > 0.015: # If more than 1.5% of the face is pure glare
+            return False, "Screen or glossy photo detected (Glass Glare)", std_dev, glare_ratio
             
-        return True, "Liveness verified"
+        if std_dev < tuned_threshold: 
+            return False, "2D photo detected (Flat Reflection)", std_dev, glare_ratio
+            
+        return True, "Liveness verified", std_dev, glare_ratio
     except Exception as e:
-        return False, f"Error: {str(e)}"
+        return False, f"Error: {str(e)}", None, None
 
 def pop_esp32_rfid():
     """Polls ESP32 for a scanned RFID UID. Returns UID or None."""
@@ -387,11 +393,21 @@ def enrollment_cancel():
 # ==========================================
 @app.route('/')
 def index():
+    return redirect(url_for('locker'))
+
+@app.route('/locker')
+def locker():
     global system_state
     system_state["mode"] = "auth"
     system_state["locker_status"] = "idle"
     system_state["message"] = "System Idle. Scan RFID to begin."
     return render_template('locker.html')
+
+@app.route('/authenticate')
+def authenticate():
+    global system_state
+    system_state["mode"] = "auth"
+    return render_template('authenticate.html')
 
 # ==========================================
 # ADMIN DASHBOARD ROUTES
@@ -511,12 +527,12 @@ def authenticate_face():
         pass
         
     # 2. Verify Liveness
-    liveness_passed, liveness_msg = verify_blue_light(ambient_frame, illuminated_frame)
+    liveness_passed, liveness_msg, std_dev, glare_ratio = verify_blue_light(ambient_frame, illuminated_frame)
     if not liveness_passed:
         system_state["locker_status"] = "idle"
         system_state["message"] = f"Liveness Failed: {liveness_msg}"
         notify_telegram_user(chat_id, f"ALERT: Spoof Attempt! {liveness_msg}", illuminated_frame)
-        log_access_attempt(pending_user, "Spoof", liveness_msg, illuminated_frame)
+        log_access_attempt(pending_user, "Spoof", liveness_msg, illuminated_frame, std_dev, glare_ratio, None)
         return jsonify({'success': False, 'message': f'Liveness Failed: {liveness_msg}'})
     
     # 3. 1:1 Face Match
@@ -529,13 +545,14 @@ def authenticate_face():
             system_state["locker_status"] = "idle"
             system_state["message"] = "No face found"
             notify_telegram_user(chat_id, "ALERT: No face found during authentication.", illuminated_frame)
-            log_access_attempt(pending_user, "Failed", "No face found", illuminated_frame)
+            log_access_attempt(pending_user, "Failed", "No face found", illuminated_frame, std_dev, glare_ratio, None)
             return jsonify({'success': False, 'message': 'No face found'})
             
         live_encoding = face_recognition.face_encodings(image, face_locations)[0]
     except Exception as e:
         system_state["locker_status"] = "idle"
         system_state["message"] = "Recognition error"
+        log_access_attempt(pending_user, "Failed", f"Error: {str(e)}", illuminated_frame, std_dev, glare_ratio, None)
         return jsonify({'success': False, 'message': str(e)})
         
     stored_encoding = np.array(users[pending_user]['avg_encoding'])
@@ -551,7 +568,7 @@ def authenticate_face():
         system_state["locker_status"] = "idle" # Reset for next user immediately
         system_state["message"] = f"Access Granted to {pending_user}. Unlocking..."
         notify_telegram_user(chat_id, f"Access Granted to {pending_user}. Locker unlocked.", illuminated_frame)
-        log_access_attempt(pending_user, "Success", "Access Granted", illuminated_frame)
+        log_access_attempt(pending_user, "Success", "Access Granted", illuminated_frame, std_dev, glare_ratio, face_distance)
         return jsonify({
             'success': True, 
             'message': f'Authentication successful! Welcome, {pending_user}! Unlocking...'
@@ -560,7 +577,7 @@ def authenticate_face():
         system_state["locker_status"] = "idle"
         system_state["message"] = "Face does not match RFID user"
         notify_telegram_user(chat_id, f"ALERT: Unauthorized face scanned with your RFID card! (Dist: {face_distance:.2f})", illuminated_frame)
-        log_access_attempt(pending_user, "Failed", "Face Mismatch", illuminated_frame)
+        log_access_attempt(pending_user, "Failed", "Face Mismatch", illuminated_frame, std_dev, glare_ratio, face_distance)
         return jsonify({'success': False, 'message': 'Face does not match RFID user'})
 
 if __name__ == '__main__':

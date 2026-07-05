@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +28,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            background-image: 
+            background-image:
                 radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
                 radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
             background-attachment: fixed;
@@ -56,8 +57,15 @@
         }
 
         @keyframes floatIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .card-title {
@@ -69,7 +77,7 @@
             justify-content: center;
             gap: 0.75rem;
         }
-        
+
         .subtitle {
             color: var(--text-muted);
             margin-bottom: 2rem;
@@ -79,13 +87,14 @@
         .camera-container {
             position: relative;
             width: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 1rem;
             overflow: hidden;
             border: 1px solid var(--glass-border);
             margin-bottom: 1.5rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-            display: none; /* Hidden by default until RFID scan */
+            display: none;
+            /* Hidden by default until RFID scan */
             transition: all 0.3s ease;
         }
 
@@ -113,168 +122,174 @@
             font-size: 0.875rem;
             transition: color 0.2s;
         }
-        
+
         .footer-link:hover {
             color: var(--text-main);
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <div class="card">
-        <h2 class="card-title">
-            <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-            Smart Locker System
-        </h2>
-        <p class="subtitle">Please scan your RFID tag on the reader to begin.</p>
-        
-        <div class="camera-container" id="camera-container">
-            <video id="video" width="640" height="480" autoplay></video>
-            <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+    <div class="container">
+        <div class="card">
+            <h2 class="card-title">
+                <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                    </path>
+                </svg>
+                Smart Locker System
+            </h2>
+            <p class="subtitle">Please scan your RFID tag on the reader to begin.</p>
+
+            <div class="camera-container" id="camera-container">
+                <video id="video" width="640" height="480" autoplay></video>
+                <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+            </div>
+
+            <div id="statusText" class="status-text">System Idle. Waiting for RFID...</div>
+
+            <a href="/admin" class="footer-link">Admin Dashboard</a>
         </div>
-        
-        <div id="statusText" class="status-text">System Idle. Waiting for RFID...</div>
-
-        <a href="/admin" class="footer-link">Admin Dashboard</a>
     </div>
-</div>
 
-<script>
-let stream = null;
-let polling = true;
-let isProcessingLiveness = false; // Prevents double-triggering
+    <script>
+        let stream = null;
+        let polling = true;
+        let isProcessingLiveness = false; // Prevents double-triggering
 
-// Initialize DOM elements
-const video = document.getElementById('video');
-const canvas = document.getElementById('canvas');
-const statusText = document.getElementById('statusText');
-const cameraContainer = document.getElementById('camera-container');
+        // Initialize DOM elements
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const statusText = document.getElementById('statusText');
+        const cameraContainer = document.getElementById('camera-container');
 
-// Initialize camera immediately on page load so it's ready when RFID is scanned
-async function initCamera() {
-    try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = stream;
-    } catch (err) {
-        if (statusText) {
-            statusText.innerText = "Camera Error: " + err.message;
-            statusText.style.color = "var(--danger)";
-        }
-        console.error("Camera access error:", err);
-    }
-}
-
-// Start the camera when the script loads
-window.onload = initCamera;
-
-// Poll the Flask backend for locker status
-async function checkStatus() {
-    if (!polling || isProcessingLiveness) return;
-    
-    try {
-        const res = await fetch('/api/locker/status');
-        const data = await res.json();
-        
-        // Update UI message
-        if (statusText) {
-            statusText.innerText = data.message;
-            // Color code the status text based on mode
-            if (data.locker_status === 'idle') {
-                statusText.style.color = "var(--text-muted)";
-            } else if (data.locker_status === 'awaiting_face' || data.locker_status === 'authenticating') {
-                statusText.style.color = "var(--info)";
-            } else if (data.locker_status === 'unlock') {
-                statusText.style.color = "var(--success)";
-            }
-        }
-        
-        // If an RFID was scanned, trigger the face liveness sequence
-        if (data.locker_status === 'awaiting_face' || data.locker_status === 'authenticating') {
-            isProcessingLiveness = true; // Lock the sequence
-            polling = false; // Stop polling while we capture and process
-            
-            if (cameraContainer) cameraContainer.style.display = "block";
-            if (statusText) statusText.innerText = "Scanning face... Please look at the camera.";
-            
+        // Initialize camera immediately on page load so it's ready when RFID is scanned
+        async function initCamera() {
             try {
-                await triggerLivenessCheck();
-            } catch (error) {
-                console.error("Liveness sequence error:", error);
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (err) {
                 if (statusText) {
-                    statusText.innerText = "Error: " + error.message;
+                    statusText.innerText = "Camera Error: " + err.message;
                     statusText.style.color = "var(--danger)";
                 }
-            } finally {
-                // Resume polling after sequence is complete or fails
-                isProcessingLiveness = false;
-                polling = true; 
+                console.error("Camera access error:", err);
             }
-        } else if (data.locker_status === 'idle' || data.locker_status === 'unlock') {
-            // Hide video when system is idle or unlocking
-            if (cameraContainer) cameraContainer.style.display = "none";
         }
-    } catch (e) {
-        console.error("Polling error:", e);
-        // If the server is down, wait a bit before trying again
-        await new Promise(r => setTimeout(r, 2000));
-    }
-}
 
-// Orchestrate the Blue LED liveness check
-async function triggerLivenessCheck() {
-    if (!stream || !video || !canvas) {
-        throw new Error("Camera not initialized properly.");
-    }
-    
-    const context = canvas.getContext('2d');
-    
-    // 1. Capture Ambient Frame (LED is currently OFF)
-    context.drawImage(video, 0, 0, 640, 480);
-    const ambientFrame = canvas.toDataURL('image/jpeg');
-    
-    // 2. Tell Flask to turn ON the ESP32 Blue LED
-    if (statusText) statusText.innerText = "Activating Blue LEDs...";
-    const ledRes = await fetch('/liveness/start', { method: 'POST' });
-    const ledData = await ledRes.json();
-    
-    if (!ledData.success) {
-        throw new Error(ledData.message || "Failed to communicate with ESP32 LED");
-    }
-    
-    // Wait 500ms for LED to physically turn on and webcam exposure to adjust
-    await new Promise(r => setTimeout(r, 500));
-    
-    // 3. Capture Illuminated Frame (LED is ON)
-    if (statusText) statusText.innerText = "Capturing illuminated frame...";
-    context.drawImage(video, 0, 0, 640, 480);
-    const illuminatedFrame = canvas.toDataURL('image/jpeg');
-    
-    // 4. Send both frames to Flask for verification
-    if (statusText) statusText.innerText = "Verifying identity...";
-    const response = await fetch('/api/authenticate_face', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            ambient_image: ambientFrame,
-            illuminated_image: illuminatedFrame
-        })
-    });
-    
-    const result = await response.json();
-    console.log("Authentication response:", result);
-    
-    // If it failed, show red error text temporarily
-    if (!result.success) {
-        statusText.style.color = "var(--danger)";
-    }
-    
-    // The UI status will update automatically via polling in the next tick.
-}
+        // Start the camera when the script loads
+        window.onload = initCamera;
 
-// Start polling the server every 1 second
-setInterval(checkStatus, 1000);
-</script>
+        // Poll the Flask backend for locker status
+        async function checkStatus() {
+            if (!polling || isProcessingLiveness) return;
+
+            try {
+                const res = await fetch('/api/locker/status');
+                const data = await res.json();
+
+                // Update UI message
+                if (statusText) {
+                    statusText.innerText = data.message;
+                    // Color code the status text based on mode
+                    if (data.locker_status === 'idle') {
+                        statusText.style.color = "var(--text-muted)";
+                    } else if (data.locker_status === 'awaiting_face' || data.locker_status === 'authenticating') {
+                        statusText.style.color = "var(--info)";
+                    } else if (data.locker_status === 'unlock') {
+                        statusText.style.color = "var(--success)";
+                    }
+                }
+
+                // If an RFID was scanned, trigger the face liveness sequence
+                if (data.locker_status === 'awaiting_face' || data.locker_status === 'authenticating') {
+                    isProcessingLiveness = true; // Lock the sequence
+                    polling = false; // Stop polling while we capture and process
+
+                    if (cameraContainer) cameraContainer.style.display = "block";
+                    if (statusText) statusText.innerText = "Scanning face... Please look at the camera.";
+
+                    try {
+                        await triggerLivenessCheck();
+                    } catch (error) {
+                        console.error("Liveness sequence error:", error);
+                        if (statusText) {
+                            statusText.innerText = "Error: " + error.message;
+                            statusText.style.color = "var(--danger)";
+                        }
+                    } finally {
+                        // Resume polling after sequence is complete or fails
+                        isProcessingLiveness = false;
+                        polling = true;
+                    }
+                } else if (data.locker_status === 'idle' || data.locker_status === 'unlock') {
+                    // Hide video when system is idle or unlocking
+                    if (cameraContainer) cameraContainer.style.display = "none";
+                }
+            } catch (e) {
+                console.error("Polling error:", e);
+                // If the server is down, wait a bit before trying again
+                await new Promise(r => setTimeout(r, 2000));
+            }
+        }
+
+        // Orchestrate the Blue LED liveness check
+        async function triggerLivenessCheck() {
+            if (!stream || !video || !canvas) {
+                throw new Error("Camera not initialized properly.");
+            }
+
+            const context = canvas.getContext('2d');
+
+            // 1. Capture Ambient Frame (LED is currently OFF)
+            context.drawImage(video, 0, 0, 640, 480);
+            const ambientFrame = canvas.toDataURL('image/jpeg');
+
+            // 2. Tell Flask to turn ON the ESP32 Blue LED
+            if (statusText) statusText.innerText = "Activating Blue LEDs...";
+            const ledRes = await fetch('/liveness/start', { method: 'POST' });
+            const ledData = await ledRes.json();
+
+            if (!ledData.success) {
+                throw new Error(ledData.message || "Failed to communicate with ESP32 LED");
+            }
+
+            // Wait 500ms for LED to physically turn on and webcam exposure to adjust
+            await new Promise(r => setTimeout(r, 500));
+
+            // 3. Capture Illuminated Frame (LED is ON)
+            if (statusText) statusText.innerText = "Capturing illuminated frame...";
+            context.drawImage(video, 0, 0, 640, 480);
+            const illuminatedFrame = canvas.toDataURL('image/jpeg');
+
+            // 4. Send both frames to Flask for verification
+            if (statusText) statusText.innerText = "Verifying identity...";
+            const response = await fetch('/api/authenticate_face', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ambient_image: ambientFrame,
+                    illuminated_image: illuminatedFrame
+                })
+            });
+
+            const result = await response.json();
+            console.log("Authentication response:", result);
+
+            // If it failed, show red error text temporarily
+            if (!result.success) {
+                statusText.style.color = "var(--danger)";
+            }
+
+            // The UI status will update automatically via polling in the next tick.
+        }
+
+        // Start polling the server every 1 second
+        setInterval(checkStatus, 1000);
+    </script>
 
 </body>
+
 </html>

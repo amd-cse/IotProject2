@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +29,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            background-image: 
+            background-image:
                 radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
                 radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
             background-attachment: fixed;
@@ -57,8 +58,15 @@
         }
 
         @keyframes floatIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .card-title {
@@ -74,7 +82,7 @@
         .camera-container {
             position: relative;
             width: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 1rem;
             overflow: hidden;
             border: 1px solid var(--glass-border);
@@ -124,11 +132,24 @@
             transform: none;
         }
 
-        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--text-main); }
-        .btn-outline:hover:not(:disabled) { background: rgba(99, 102, 241, 0.1); }
-        
-        .btn-success { background: var(--success); }
-        .btn-success:hover:not(:disabled) { background: #059669; box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.4); }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #059669;
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.4);
+        }
 
         .alert {
             padding: 1rem 1.5rem;
@@ -139,10 +160,24 @@
             animation: fadeUp 0.3s ease-out;
             border: 1px solid transparent;
         }
-        
-        .alert-success { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); color: #34d399; }
-        .alert-danger { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #f87171; }
-        .alert-info { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
 
         .footer-link {
             display: inline-block;
@@ -152,48 +187,64 @@
             font-size: 0.875rem;
             transition: color 0.2s;
         }
+
         .footer-link:hover {
             color: var(--text-main);
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <div class="card">
-        <h2 class="card-title">
-            <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-            Face Authentication
-        </h2>
-        
-        <form id="authForm">
-            <div class="camera-container">
-                <video id="video" width="640" height="480" autoplay></video>
-                <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
-            </div>
-            
-            <div class="btn-group">
-                <button type="button" class="btn btn-outline" id="startCamera">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    Start Camera
-                </button>
-                <button type="button" class="btn btn-success" id="startAuth" disabled>
-                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    Scan Face
-                </button>
-            </div>
-            
-            <div id="challengePrompt" class="alert alert-info" style="display: none;">
-                Please wait...
-            </div>
+    <div class="container">
+        <div class="card">
+            <h2 class="card-title">
+                <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                    </path>
+                </svg>
+                Face Authentication
+            </h2>
 
-            <div id="result"></div>
-        </form>
+            <form id="authForm">
+                <div class="camera-container">
+                    <video id="video" width="640" height="480" autoplay></video>
+                    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+                </div>
 
-        <a href="/admin" class="footer-link">Admin Dashboard</a>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline" id="startCamera">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Start Camera
+                    </button>
+                    <button type="button" class="btn btn-success" id="startAuth" disabled>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Scan Face
+                    </button>
+                </div>
+
+                <div id="challengePrompt" class="alert alert-info" style="display: none;">
+                    Please wait...
+                </div>
+
+                <div id="result"></div>
+            </form>
+
+            <a href="/admin" class="footer-link">Admin Dashboard</a>
+        </div>
     </div>
-</div>
 
-<script src="{{ url_for('static', filename='js/authenticate.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/authenticate.js') }}"></script>
 </body>
+
 </html>
